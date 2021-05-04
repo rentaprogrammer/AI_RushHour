@@ -3,6 +3,7 @@ import java.io.*;
 import java.text.*;
 
 import at.fhooe.ai.projectCode.AStar;
+import at.fhooe.ai.projectCode.AdvancedHeuristic;
 import at.fhooe.ai.projectCode.BlockingHeuristic;
 import at.fhooe.ai.projectCode.ZeroHeuristic;
 
@@ -46,7 +47,7 @@ public class RushHour {
       System.out.println("puzzle = " + puzzles[i].getName());
 
       Heuristic[] heuristics = { // these are the heuristics to be used
-          new ZeroHeuristic(puzzles[i]), new BlockingHeuristic(puzzles[i]) };//, new AdvancedHeuristic(puzzles[i]), }; //TODO
+          new ZeroHeuristic(puzzles[i]), new BlockingHeuristic(puzzles[i]) , new AdvancedHeuristic(puzzles[i]), }; //TODO
      
       if (i == 0) {
         num_heuristics = heuristics.length;

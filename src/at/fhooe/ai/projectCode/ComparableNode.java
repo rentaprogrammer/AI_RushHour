@@ -16,8 +16,7 @@ public class ComparableNode extends Node implements Comparable<ComparableNode> {
 		instanceCounter++;
 		
 	}
-	
-	
+		
 	public ComparableNode(Node node, int hCost) {
 		super(node.getState(), node.getDepth(), node.getParent());
 		this.fCost = node.getDepth() + hCost;

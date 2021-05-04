@@ -34,26 +34,17 @@ public class BlockingHeuristic implements Heuristic {
 		for(int i = 1 ; i < puzzle.getNumCars(); i++) {
 			if(puzzle.getCarOrient(i)) {
 				if(puzzle.getFixedPosition(i) >= goalCarInitPos ) {
-					
-					/*if (puzzle.getFixedPosition(0) >= state.getVariablePosition(i) && puzzle.getFixedPosition(0) < state.getVariablePosition(i)+puzzle.getCarSize(i)) {
-						blockedNr++;
-					}*/
-					
+															
 					if(puzzle.getCarSize(i) == 3 && state.getVariablePosition(i)<= 2) {
 						blockedNr++;}
 					
 					if((puzzle.getCarSize(i) == 2) && ((state.getVariablePosition(i)<= 2) && (state.getVariablePosition(i) >= 1 ))) {
 						blockedNr++;
-					}
-					/*if(puzzle.getCarSize(i) == 2 && state.getVariablePosition(i) >= 1 ) {
-						blockedNr++;
-					}	*/		
+					}						
 				}
 				
 			}
 		}
-	  
-	  System.out.print("blockedNR: "+ blockedNr);
     return blockedNr;
   }
 

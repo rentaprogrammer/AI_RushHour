@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.TreeSet;
 
 //import AStar.HNode;
 import at.fhooe.ai.rushhour.Heuristic;
@@ -29,9 +30,9 @@ public class AStar {
     /** The solution path is stored here */
     public State[] path;
     
-    private SortableList< ComparableNode> openList = new SortableList< ComparableNode>();    //  Sort zu PriorityQueue<ComparableNode> noch ersetzen... Hatte Fehler mit PriorityQu.  
+    private PriorityQueue<ComparableNode> openList = new PriorityQueue<ComparableNode>();
     private HashSet< ComparableNode> closedList = new HashSet< ComparableNode>(); //!!!! HashSET zirka 5* Schneller als ArrayList!!!!!!
-    //private List<ComparableNode> closedList = new ArrayList<ComparableNode>();
+
 
 
     /**
@@ -45,9 +46,8 @@ public class AStar {
     	openList.add(root);
     	
     	while(!openList.isEmpty()) {
-    		openList.sort();
-    		 ComparableNode currentNode = openList.remove(0);//Take from the open list the node node_current with the lowest
-    	
+    		
+    		 ComparableNode currentNode = openList.remove();//Take from the open list the node node_current with the lowest 	
     		
     		if(currentNode.getState().isGoal()) { // if node is goal State we have found the solution;
     			System.out.print("Goal is Found");
@@ -64,14 +64,19 @@ public class AStar {
     		for (Node successorNode : currentNode.expand()) {  //Expand all Successor Nodes 
     			
     			h = heuristic.getValue(successorNode.getState());
-    			 ComparableNode compSuccessor = new  ComparableNode(successorNode, h);    			  			
-    			if(openList.contains(compSuccessor)) {  
-    				ComparableNode savedNode =  openList.get(compSuccessor);
-    				if (savedNode.compareTo(compSuccessor) > 0) {
-    					openList.remove(savedNode);
-    	    			openList.add(compSuccessor);
-    				}
+    			 ComparableNode compSuccessor = new  ComparableNode(successorNode, h); 
+    			
+
+    			if(openList.contains(compSuccessor)) { //Prüfen ob Knoten mit selben State vorhanden ist
     				
+    				//Change to List to get the saved Element. 
+    				 List<ComparableNode> list = new ArrayList<>(openList);
+    	    		 int nodeId =  list.indexOf(compSuccessor);   	
+    	    		 
+    	    		  if (list.get(nodeId).compareTo(compSuccessor) > 0) {   				    
+    					openList.remove(compSuccessor);   //Knoten mit mehr Kosten wird entfernt.		
+    					openList.add(compSuccessor);     //Knoten wird neu eingefügt mit geringeren Kosten
+    				}   			  				
     			}else if(!closedList.contains(compSuccessor)) {   						
     				openList.add(compSuccessor);
     			}

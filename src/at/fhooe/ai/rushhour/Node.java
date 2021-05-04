@@ -40,7 +40,7 @@ public class Node {
   public Node getParent() {
     return parent;
   }
-
+  
   /** Returns the depth of this node. */
   public int getDepth() {
     return depth;
