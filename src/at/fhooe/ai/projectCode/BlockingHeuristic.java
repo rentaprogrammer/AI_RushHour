@@ -1,8 +1,6 @@
 package at.fhooe.ai.projectCode;
 
-import at.fhooe.ai.rushhour.Heuristic;
-import at.fhooe.ai.rushhour.Puzzle;
-import at.fhooe.ai.rushhour.State;
+import at.fhooe.ai.rushhour.*;
 
 /**
  * This is a template for the class corresponding to the blocking heuristic.
@@ -13,19 +11,50 @@ import at.fhooe.ai.rushhour.State;
  */
 public class BlockingHeuristic implements Heuristic {
 
+  private Puzzle puzzle;
+  
+	
   /**
    * This is the required constructor, which must be of the given form.
    */
   public BlockingHeuristic(Puzzle puzzle) {
-    // TODO
+    this.puzzle = puzzle;
   }
 
   /**
    * This method returns the value of the heuristic function at the given state.
    */
   public int getValue(State state) {
-    // TODO
-    return 0;
+	  if (state.isGoal()) {
+			return 0;
+		}
+		
+		int blockedNr = 1; 
+		int goalCarInitPos = state.getVariablePosition(0) + puzzle.getCarSize(0); //Goal Car Size 2, Get right front;
+		for(int i = 1 ; i < puzzle.getNumCars(); i++) {
+			if(puzzle.getCarOrient(i)) {
+				if(puzzle.getFixedPosition(i) >= goalCarInitPos ) {
+					
+					/*if (puzzle.getFixedPosition(0) >= state.getVariablePosition(i) && puzzle.getFixedPosition(0) < state.getVariablePosition(i)+puzzle.getCarSize(i)) {
+						blockedNr++;
+					}*/
+					
+					if(puzzle.getCarSize(i) == 3 && state.getVariablePosition(i)<= 2) {
+						blockedNr++;}
+					
+					if((puzzle.getCarSize(i) == 2) && ((state.getVariablePosition(i)<= 2) && (state.getVariablePosition(i) >= 1 ))) {
+						blockedNr++;
+					}
+					/*if(puzzle.getCarSize(i) == 2 && state.getVariablePosition(i) >= 1 ) {
+						blockedNr++;
+					}	*/		
+				}
+				
+			}
+		}
+	  
+	  System.out.print("blockedNR: "+ blockedNr);
+    return blockedNr;
   }
 
 }

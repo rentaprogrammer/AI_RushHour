@@ -17,10 +17,11 @@ public class ComparableNode extends Node implements Comparable<ComparableNode> {
 		
 	}
 	
-	/*public ComparableNode(Node node, int hCost) {
+	
+	public ComparableNode(Node node, int hCost) {
 		super(node.getState(), node.getDepth(), node.getParent());
 		this.fCost = node.getDepth() + hCost;
-	}*/
+	}
 
 	@Override
 	public int compareTo(ComparableNode node) {

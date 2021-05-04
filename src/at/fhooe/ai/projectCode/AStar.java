@@ -1,7 +1,10 @@
 package at.fhooe.ai.projectCode;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.PriorityQueue;
 
+//import AStar.HNode;
 import at.fhooe.ai.rushhour.Heuristic;
 import at.fhooe.ai.rushhour.Node;
 import at.fhooe.ai.rushhour.Puzzle;
@@ -26,8 +29,8 @@ public class AStar {
     /** The solution path is stored here */
     public State[] path;
     
-    private PriorityQueue<ComparableNode> openList = new PriorityQueue<ComparableNode>();    
-    private HashSet<ComparableNode> closedList = new HashSet<ComparableNode>(); //!!!! HashSET zirka 5* Schneller als ArrayList!!!!!!
+    private SortableList< ComparableNode> openList = new SortableList< ComparableNode>();    //  Sort zu PriorityQueue<ComparableNode> noch ersetzen... Hatte Fehler mit PriorityQu.  
+    private HashSet< ComparableNode> closedList = new HashSet< ComparableNode>(); //!!!! HashSET zirka 5* Schneller als ArrayList!!!!!!
     //private List<ComparableNode> closedList = new ArrayList<ComparableNode>();
 
 
@@ -37,12 +40,13 @@ public class AStar {
      */
     public AStar(Puzzle puzzle, Heuristic heuristic) {
    
-    	
-    	ComparableNode root = new ComparableNode(puzzle.getInitNode(), heuristic);
+    	int h = heuristic.getValue(puzzle.getInitNode().getState());
+    	 ComparableNode root = new  ComparableNode(puzzle.getInitNode(), h);
     	openList.add(root);
     	
     	while(!openList.isEmpty()) {
-    		ComparableNode currentNode = openList.remove();//Take from the open list the node node_current with the lowest
+    		openList.sort();
+    		 ComparableNode currentNode = openList.remove(0);//Take from the open list the node node_current with the lowest
     	
     		
     		if(currentNode.getState().isGoal()) { // if node is goal State we have found the solution;
@@ -51,22 +55,28 @@ public class AStar {
     			path = new State[depth + 1];   			
     			while(currentNode != null) {
     				path[depth--] = currentNode.getState();
-    				currentNode = (ComparableNode) currentNode.getParent();
+    				currentNode = ( ComparableNode) currentNode.getParent();
     			}
     			return;
     		}  		
     		closedList.add(currentNode);
     		
-    		for (Node successorNode : currentNode.expand()) {  //Expand all Successor Nodes  			   			
-    			ComparableNode compSuccessor = new ComparableNode(successorNode, heuristic);    			  			
+    		for (Node successorNode : currentNode.expand()) {  //Expand all Successor Nodes 
+    			
+    			h = heuristic.getValue(successorNode.getState());
+    			 ComparableNode compSuccessor = new  ComparableNode(successorNode, h);    			  			
     			if(openList.contains(compSuccessor)) {  
-    				//Weg Kosten Anpassen ob gefundener Knoten billiger zu erreichen ist? 
-    				//Notwendig da jeder Schritt 1 kostet? Selbes Ergebnis über mehr Knoten Kostet automatisch mehr... Ich glaube es ist nicht notwendig.
+    				ComparableNode savedNode =  openList.get(compSuccessor);
+    				if (savedNode.compareTo(compSuccessor) > 0) {
+    					openList.remove(savedNode);
+    	    			openList.add(compSuccessor);
+    				}
+    				
     			}else if(!closedList.contains(compSuccessor)) {   						
     				openList.add(compSuccessor);
     			}
     		}
     	}// while(!openListisEmpty)
 
-    }    
+    }   
 }
