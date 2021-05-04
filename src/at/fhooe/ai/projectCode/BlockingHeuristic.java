@@ -1,4 +1,9 @@
-package at.fhooe.ai.rushhour;
+package at.fhooe.ai.projectCode;
+
+import at.fhooe.ai.rushhour.Heuristic;
+import at.fhooe.ai.rushhour.Puzzle;
+import at.fhooe.ai.rushhour.State;
+
 /**
  * This is a template for the class corresponding to the blocking heuristic.
  * This heuristic returns zero for goal states, and otherwise returns one plus

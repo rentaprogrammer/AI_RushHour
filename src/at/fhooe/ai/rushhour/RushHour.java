@@ -2,6 +2,14 @@ package at.fhooe.ai.rushhour;
 import java.io.*;
 import java.text.*;
 
+import at.fhooe.ai.projectCode.AStar;
+import at.fhooe.ai.projectCode.ZeroHeuristic;
+
+
+
+
+
+
 /**
  * This class contains only a simple main for testing your algorithm on data
  * with one or more heuristics. The main begins by reading in all of the puzzles
@@ -37,7 +45,7 @@ public class RushHour {
       System.out.println("puzzle = " + puzzles[i].getName());
 
       Heuristic[] heuristics = { // these are the heuristics to be used
-          new ZeroHeuristic(puzzles[i]), new BlockingHeuristic(puzzles[i]), new AdvancedHeuristic(puzzles[i]), };
+          new ZeroHeuristic(puzzles[i])};//, new BlockingHeuristic(puzzles[i]), new AdvancedHeuristic(puzzles[i]), }; //TODO
 
       if (i == 0) {
         num_heuristics = heuristics.length;
@@ -48,7 +56,7 @@ public class RushHour {
         for (int h = 0; h < num_heuristics; h++)
           heuristic_names[h] = heuristics[h].getClass().getName();
       }
-
+      long startTime = System.currentTimeMillis();
       for (int h = 0; h < num_heuristics; h++) {
         System.out.println();
         System.out.println("------------------------------------");
@@ -56,8 +64,10 @@ public class RushHour {
         System.out.println("heuristic = " + heuristic_names[h]);
 
         puzzles[i].resetSearchCount();
+        
+      
         AStar search = new AStar(puzzles[i], heuristics[h]);
-
+    	
         if (search.path == null) {
           System.out.println("NO SOLUTION FOUND.");
           soln_depth[i][h] = -1;
@@ -75,6 +85,9 @@ public class RushHour {
 
         }
       }
+      long endTime   = System.currentTimeMillis();
+      long duration = endTime - startTime;
+      System.out.println("Duration: " + duration);
     }
 
     // print the results in a table
