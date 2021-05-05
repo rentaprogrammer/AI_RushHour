@@ -55,7 +55,6 @@ public class AdvancedHeuristic implements Heuristic {
             if(puzzle.getCarOrient(i) && puzzle.getFixedPosition(i) > curCarInitSizeVar) {
 
                 if (state.getVariablePosition(i) >= goalCarInitPosFixed-(puzzle.getCarSize(i)-1) && state.getVariablePosition(i) <= goalCarInitPosFixed) {
-                    // --> car is blocking
                     hVal += isBlockingCarBlocked(state, i);
                 }
             }
@@ -76,8 +75,6 @@ public class AdvancedHeuristic implements Heuristic {
         int curCarInitSizeVar = state.getVariablePosition(index) + puzzle.getCarSize(0)-1;
 
         for (int i = 0; i < puzzle.getNumCars(); i++) {
-
-            if (index == i) continue;
 
             if ((puzzle.getCarOrient(index) && !puzzle.getCarOrient(i))// if index car is vertical - only check horizontal cars
                     || (!puzzle.getCarOrient(index) && puzzle.getCarOrient(i))) { // if index car is horizontal - only check vertical cars
