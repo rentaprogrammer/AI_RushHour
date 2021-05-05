@@ -5,7 +5,6 @@ import at.fhooe.ai.rushhour.Puzzle;
 import at.fhooe.ai.rushhour.State;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * This is a template for the class corresponding to your original
