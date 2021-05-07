@@ -56,7 +56,7 @@ public class RushHour {
 
         heuristic_names = new String[num_heuristics];
         for (int h = 0; h < num_heuristics; h++)
-          heuristic_names[h] = heuristics[h].getClass().getName();
+          heuristic_names[h] = heuristics[h].getClass().getSimpleName();
       }
       long startTime = System.currentTimeMillis();
       for (int h = 0; h < num_heuristics; h++) {

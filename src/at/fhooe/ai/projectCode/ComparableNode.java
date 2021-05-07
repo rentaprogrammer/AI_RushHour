@@ -5,45 +5,39 @@ import at.fhooe.ai.rushhour.Node;
 
 public class ComparableNode extends Node implements Comparable<ComparableNode> {
 
-	//InstanceCounter to break Tie into FIFO!!!! Otherwise PriorityQeue choose random tie version.
 	private int fCost;
-    static int instanceCounter = 0;	
-    private int counter;
+	static int instanceCounter = 0;
+	private int instanceNr;
+
 	public ComparableNode(Node node, Heuristic heuristic) {
 		super(node.getState(), node.getDepth(), node.getParent());
 		this.fCost = node.getDepth() + heuristic.getValue(node.getState());
-		counter = instanceCounter;
+		instanceNr = instanceCounter;
 		instanceCounter++;
-		
-	}
-		
-	public ComparableNode(Node node, int hCost) {
-		super(node.getState(), node.getDepth(), node.getParent());
-		this.fCost = node.getDepth() + hCost;
 	}
 
 	@Override
 	public int compareTo(ComparableNode node) {
-		// TODO Auto-generated method stub
-		if(fCost == node.getFCost()) {
-			if(this.counter > node.counter) {
+		if (this.fCost == node.getFCost()) {
+			if (this.instanceNr > node.getOrder()) {
 				return 1;
+			} else {
+				return -1;
 			}
-			return 0;
-		}else if (fCost > node.getFCost()) {
-			if(this.counter < node.counter) {
-				return 0;
-			}
+		} else if (this.fCost > node.getFCost()) {
 			return 1;
 		}
 		return -1;
 	}
 
-	
-	public int getFCost() {		
-		return fCost;
+	public int getFCost() {
+		return this.fCost;
 	}
 	
+	public int getOrder() {
+		return this.instanceNr;
+	}
+
 	@Override
 	public int hashCode() {
 		return this.getState().hashCode();
@@ -54,17 +48,16 @@ public class ComparableNode extends Node implements Comparable<ComparableNode> {
 		if (other == null) {
 			return false;
 		}
-		
+
 		if (this == other) {
 			return true;
 		}
-		
-		
+
 		if (other instanceof Node || other instanceof ComparableNode) {
 			return ((Node) other).getState().equals(this.getState());
 		}
-		
+
 		return false;
 	}
-	
+
 }
