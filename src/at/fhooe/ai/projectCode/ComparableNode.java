@@ -4,7 +4,6 @@ import at.fhooe.ai.rushhour.Heuristic;
 import at.fhooe.ai.rushhour.Node;
 
 public class ComparableNode extends Node implements Comparable<ComparableNode> {
-
 	private int fCost;
 	static int instanceCounter = 0;
 	private int instanceNr;
@@ -33,7 +32,7 @@ public class ComparableNode extends Node implements Comparable<ComparableNode> {
 	public int getFCost() {
 		return this.fCost;
 	}
-	
+
 	public int getOrder() {
 		return this.instanceNr;
 	}
@@ -48,16 +47,12 @@ public class ComparableNode extends Node implements Comparable<ComparableNode> {
 		if (other == null) {
 			return false;
 		}
-
 		if (this == other) {
 			return true;
 		}
-
 		if (other instanceof Node || other instanceof ComparableNode) {
 			return ((Node) other).getState().equals(this.getState());
 		}
-
 		return false;
 	}
-
 }

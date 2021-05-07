@@ -8,5 +8,4 @@ public class QueueComperator implements Comparator<ComparableNode> {
 	public int compare(ComparableNode node_0, ComparableNode node_1) {		
 		return node_0.compareTo(node_1);		
 	}
-
 }
