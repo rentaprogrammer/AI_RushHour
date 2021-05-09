@@ -42,12 +42,14 @@ public class RushHour {
     int[][] soln_depth = null;
 
     // run each heuristic on each puzzle
+    /*long startTime = System.currentTimeMillis();
+    int explored =0;*/
     for (int i = 0; i < num_puzzles; i++) {
       System.out.println("=================================================");
       System.out.println("puzzle = " + puzzles[i].getName());
 
       Heuristic[] heuristics = { // these are the heuristics to be used
-    		  new ZeroHeuristic(puzzles[i]), new BlockingHeuristic(puzzles[i]) , new AdvancedHeuristic(puzzles[i]), }; //TODO
+    		  new ZeroHeuristic(puzzles[i]), new BlockingHeuristic(puzzles[i]) , new AdvancedHeuristic(puzzles[i]), }; 
      
       if (i == 0) {
         num_heuristics = heuristics.length;
@@ -58,7 +60,6 @@ public class RushHour {
         for (int h = 0; h < num_heuristics; h++)
           heuristic_names[h] = heuristics[h].getClass().getSimpleName();
       }
-      long startTime = System.currentTimeMillis();
       for (int h = 0; h < num_heuristics; h++) {
         System.out.println();
         System.out.println("------------------------------------");
@@ -84,13 +85,19 @@ public class RushHour {
           soln_depth[i][h] = search.path.length - 1;
 
           System.out.println("nodes expanded: " + num_expanded[i][h] + ", soln depth: " + soln_depth[i][h]);
+          //explored +=puzzles[i].getSearchCount();;
 
         }
       }
-      long endTime   = System.currentTimeMillis();
-      long duration = endTime - startTime;
-      System.out.println("Duration: " + duration);
+     
     }
+  /*  long endTime   = System.currentTimeMillis();
+    long duration = endTime - startTime;
+    System.out.println("heuristic = " + heuristic_names[0]);
+    System.out.println("Duration: " + duration);
+    System.out.println("visited nodes:" + explored);
+    System.out.println("visited nodes/average:" + (explored/40));*/
+    
 
     // print the results in a table
     System.out.println();

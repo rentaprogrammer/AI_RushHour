@@ -13,36 +13,29 @@ public class BlockingHeuristic implements Heuristic {
 
 	private Puzzle puzzle;
   
-	
-	/**
-	* This is the required constructor, which must be of the given form.
-	*/
 	public BlockingHeuristic(Puzzle puzzle) {
 	this.puzzle = puzzle;
 	}
 
-	/**
-	* This method returns the value of the heuristic function at the given state.
-	*/
+	
 	public int getValue(State state) {
 		if (state.isGoal()) {
 			return 0;
 		}
 
-		int blockedNr = 1;
+		int hCost = 1;
 	  	int goalCarInitPosFixed = puzzle.getFixedPosition(0);
 	  	int curCarInitSizeVar = state.getVariablePosition(0) + puzzle.getCarSize(0)-1;
 
 	  	for(int i = 1 ; i < puzzle.getNumCars(); i++) {
 			if(puzzle.getCarOrient(i) && puzzle.getFixedPosition(i) > curCarInitSizeVar) {
 
-				if (state.getVariablePosition(i) >= goalCarInitPosFixed-(puzzle.getCarSize(i)-1) && state.getVariablePosition(i) <= goalCarInitPosFixed) {
-					blockedNr++;
+				if (state.getVariablePosition(i) >= goalCarInitPosFixed-(puzzle.getCarSize(i)-1) && 
+						state.getVariablePosition(i) <= goalCarInitPosFixed) {
+					hCost++;
 				}
-
 			}
 		}
-	return blockedNr;
+	return hCost;
 	}
-
 }
